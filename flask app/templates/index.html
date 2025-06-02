@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EV Trip Summary</title>
+    <style>
+        body { font-family: Arial; max-width: 700px; margin: auto; padding: 2em; }
+        input, select { width: 100%; padding: 0.5em; margin-bottom: 1em; }
+        button { padding: 0.7em 1.5em; }
+        .result { background: #f9f9f9; padding: 1em; margin-top: 2em; border-left: 4px solid #007BFF; }
+    </style>
+</head>
+<body>
+    <h2>🔋 EV Trip Details</h2>
+    <form method="POST">
+        <label>Date:</label>
+        <input name="date" required>
+
+        <label>Vehicle Type:</label>
+        <select name="vehicle_type">
+            <option value="hatchback">Hatchback</option>
+            <option value="sedan">Sedan</option>
+            <option value="suv" selected>SUV</option>
+        </select>
+
+        <label>Battery Capacity (kWh):</label>
+        <input type="number" name="battery_capacity" value="45" step="0.1" required>
+
+        <label>Distance Travelled (km):</label>
+        <input type="number" name="distance" step="0.1" required>
+
+        <label>Energy Efficiency (Wh/km):</label>
+        <input type="number" name="wh_per_km" step="0.1" required>
+
+        <label>Average Speed (km/h):</label>
+        <input type="number" name="avg_speed" step="0.1" required>
+
+        <label>Top Speed (km/h):</label>
+        <input type="number" name="top_speed" step="0.1" required>
+
+        <label>Idle Time Percentage (%):</label>
+        <input type="number" name="idle" step="0.1" required>
+
+        <label>Performance Score (0–10):</label>
+        <input type="number" name="perf_score" min="0" max="10" step="0.1" required>
+
+        <label>Safety Score (optional):</label>
+        <input type="number" name="safety_score" min="0" max="10" step="0.1">
+
+        <label>Harsh Braking Events (optional):</label>
+        <input type="number" name="braking_events">
+
+        <label>Acceleration Time %:</label>
+        <input type="number" name="accel_pct" step="0.1" required>
+
+        <label>Deceleration Time %:</label>
+        <input type="number" name="decel_pct" step="0.1" required>
+
+        <label>Cruising Time %:</label>
+        <input type="number" name="cruise_pct" step="0.1" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if result %}
+        <div class="result">
+            {% if result.error %}
+                <strong>Error:</strong> {{ result.error }}
+            {% else %}
+                <h3>⚡ EV Trip Summary</h3>
+                {% for key, value in result.items() %}
+                    <p><strong>{{ key.replace('_', ' ').title() }}:</strong> {{ value }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
